@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "restaurant_data_collection/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "framework": null,
+  "outputDirectory": "restaurant_data_collection/frontend/dist",
+  "buildCommand": "npm install && npm run build",
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/restaurant_data_collection/frontend/$1" }
+  ]
+}
+
+
