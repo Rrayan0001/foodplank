@@ -56,6 +56,17 @@ function App() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Check for duplicate phone number before inserting
+      const { count, error: countError } = await supabase
+        .from("customers")
+        .select("*", { count: "exact", head: true })
+        .eq("phone", formData.phone);
+      if (countError) throw countError;
+      if ((count ?? 0) > 0) {
+        alert("Phone already exists");
+        return;
+      }
+
       const { error } = await supabase
         .from("customers")
         .insert([formData]);
@@ -115,9 +126,7 @@ function App() {
 
         <button type="submit">Save My Details</button>
       </form>
-      <footer>
-        <p>We respect your privacy (except for sending offers). 😉</p>
-      </footer>
+      {/* footer removed per request */}
     </div>
   );
 }
